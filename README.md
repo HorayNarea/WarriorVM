@@ -64,6 +64,13 @@ To prevent this you can press the `Shut down`-button on both warriors and wait u
 
 In `warrior.conf` you can also set `HTTP_USERNAME` and `HTTP_PASSWORD` to enable HTTP Basic Auth for the web interfaces.
 
+
+## contributing / contact
+
+I'm very open for contributions to make this VM image even more low-maintanance for users, if you have any ideas feel free to open a PR!
+
+If you are someone from the ArchiveTeam and (don't) like this or if anyone really needs to contact me in private, please see https://gecko.space/kontakt/ for my contact details.
+
 ---
 
 ¹ for example "Deutsche Telekom" is well known to redirect non-existent domains to their own search engine; some countries mandate that ISPs have to block "bad domains" such as The Pirate Bay; some people use [Pi-Hole](https://pi-hole.net/) or [AdGuardHome](https://adguard.com/en/adguard-home/overview.html) to filter ads/trackers from their whole network
