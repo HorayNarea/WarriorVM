@@ -30,7 +30,7 @@ This container is not reachable from outside of the VM.
 ## setup on TrueNAS
 
 * create a 64 GiB zvol²
-* download the [VM image](https://github.com/HorayNarea/warrior-vm/releases) and verify it's checksum
+* download the [VM image](https://github.com/HorayNarea/warrior-vm/releases/latest) and verify it's checksum
 * "burn" the image onto your zvol by doing `zstd -d -c $imagefile|dd bs=1m of=/dev/zvol/…`
 * create a VM
     * Guest Operating System: Linux
