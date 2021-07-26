@@ -1,0 +1,78 @@
+version: "2.4"
+
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.78.62.0/24
+
+
+volumes:
+  urlteam-data:
+  auto-data:
+
+
+services:
+  watchtower:
+    image: containrrr/watchtower:latest
+    restart: unless-stopped
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --label-enable --interval 3600
+
+  unbound:
+    image: horaynarea/unbound_docker:latest
+    restart: unless-stopped
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      default:
+        ipv4_address: 10.78.62.200
+
+  urlteam:
+    image: atdr.meo.ws/archiveteam/warrior-dockerfile:latest
+    restart: on-failure
+    depends_on:
+      - unbound
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    dns:
+      - 10.78.62.200
+    env_file:
+      - warrior.conf
+    environment:
+      SELECTED_PROJECT: "urlteam2"
+      CONCURRENT_ITEMS: "6"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - urlteam-data:/home/warrior/data
+    ports:
+      - 8000:8001
+
+  auto:
+    image: atdr.meo.ws/archiveteam/warrior-dockerfile:latest
+    restart: on-failure
+    depends_on:
+      - unbound
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    dns:
+      - 10.78.62.200
+    env_file:
+      - warrior.conf
+    environment:
+      SELECTED_PROJECT: "auto"
+      CONCURRENT_ITEMS: "2"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - auto-data:/home/warrior/data
+    ports:
+      - 8001:8001
